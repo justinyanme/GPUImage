@@ -178,7 +178,7 @@
     [pictureInput removeAllTargets];
     [pictureInput addTarget:lineDetector];
     
-    __unsafe_unretained GPUImageHoughTransformLineDetector * weakDetector = lineDetector;
+    __weak GPUImageHoughTransformLineDetector * weakDetector = lineDetector;
     [lineDetector setLinesDetectedBlock:^(GLfloat* lineArray, NSUInteger linesDetected, CMTime frameTime){
         NSLog(@"Number of lines: %ld", (unsigned long)linesDetected);
         
@@ -225,7 +225,7 @@
     
     [pictureInput addTarget:cornerDetector];
     
-    __unsafe_unretained GPUImageHarrisCornerDetectionFilter * weakDetector = cornerDetector;
+    __weak GPUImageHarrisCornerDetectionFilter * weakDetector = cornerDetector;
     [cornerDetector setCornersDetectedBlock:^(GLfloat* cornerArray, NSUInteger cornersDetected, CMTime frameTime) {
         GPUImageCrosshairGenerator *crosshairGenerator = [[GPUImageCrosshairGenerator alloc] init];
         crosshairGenerator.crosshairWidth = 10.0;

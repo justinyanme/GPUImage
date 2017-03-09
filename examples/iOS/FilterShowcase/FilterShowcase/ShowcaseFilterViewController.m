@@ -1431,7 +1431,7 @@
             
             [blendFilter addTarget:filterView];
 
-            __unsafe_unretained GPUImageUIElement *weakUIElementInput = uiElementInput;
+            __weak GPUImageUIElement *weakUIElementInput = uiElementInput;
             
             [filter setFrameProcessingCompletionBlock:^(GPUImageOutput * filter, CMTime frameTime){
                 timeLabel.text = [NSString stringWithFormat:@"Time: %f s", -[startTime timeIntervalSinceNow]];
@@ -1526,7 +1526,7 @@
             [self.view addSubview:faceView];
             faceView.hidden = YES;
             
-            __unsafe_unretained ShowcaseFilterViewController * weakSelf = self;
+            __weak ShowcaseFilterViewController * weakSelf = self;
             [(GPUImageMotionDetector *) filter setMotionDetectionBlock:^(CGPoint motionCentroid, CGFloat motionIntensity, CMTime frameTime) {
                 if (motionIntensity > 0.01)
                 {

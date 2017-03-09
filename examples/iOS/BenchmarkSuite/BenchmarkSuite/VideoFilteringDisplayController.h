@@ -25,7 +25,7 @@
     GPUImageOutput<GPUImageInput> *benchmarkedGPUImageFilter;
     GPUImageView *filterView;
     
-    __unsafe_unretained id<VideoFilteringCallback> delegate;
+    __weak id<VideoFilteringCallback> delegate;
 }
 
 @property(unsafe_unretained, nonatomic) id<VideoFilteringCallback> delegate;

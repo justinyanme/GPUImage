@@ -33,7 +33,7 @@
     BOOL captureAsYUV;
     GLuint luminanceTexture, chrominanceTexture;
 
-    __unsafe_unretained id<GPUImageVideoCameraDelegate> _delegate;
+    __weak id<GPUImageVideoCameraDelegate> _delegate;
 }
 
 /// The AVCaptureSession used to capture from the camera
