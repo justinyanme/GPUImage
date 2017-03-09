@@ -139,7 +139,6 @@
 
 - (void)dealloc
 {
-    [playerItemOutput setDelegate:nil queue:nil];
     
     // Moved into endProcessing
     //if (self.playerItem && (displayLink != nil))
@@ -812,6 +811,8 @@ static CVReturn renderCallback(CVDisplayLinkRef displayLink,
         [self.delegate didCompletePlayingMovie];
     }
     self.delegate = nil;
+
+    [playerItemOutput setDelegate:nil queue:nil];
 }
 
 - (void)cancelProcessing
