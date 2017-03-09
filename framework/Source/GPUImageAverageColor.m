@@ -90,7 +90,7 @@ NSString *const kGPUImageColorAveragingFragmentShaderString = SHADER_STRING
     texelHeightUniform = [filterProgram uniformIndex:@"texelHeight"];
     finalStageSize = CGSizeMake(1.0, 1.0);
     
-    __unsafe_unretained GPUImageAverageColor *weakSelf = self;
+    __weak GPUImageAverageColor *weakSelf = self;
     [self setFrameProcessingCompletionBlock:^(GPUImageOutput *filter, CMTime frameTime) {
         [weakSelf extractAverageColorAtFrameTime:frameTime];
     }];

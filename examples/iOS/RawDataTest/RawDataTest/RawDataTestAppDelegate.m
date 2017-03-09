@@ -30,7 +30,7 @@
     [rawDataInput addTarget:customFilter];
     [customFilter addTarget:rawDataOutput];
     
-    __unsafe_unretained GPUImageRawDataOutput * weakOutput = rawDataOutput;
+    __weak GPUImageRawDataOutput * weakOutput = rawDataOutput;
     [rawDataOutput setNewFrameAvailableBlock:^{
         [weakOutput lockFramebufferForReading];
         GLubyte *outputBytes = [weakOutput rawBytesForImage];

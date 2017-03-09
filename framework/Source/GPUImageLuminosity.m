@@ -119,7 +119,7 @@ NSString *const kGPUImageLuminosityFragmentShaderString = SHADER_STRING
     texelWidthUniform = [filterProgram uniformIndex:@"texelWidth"];
     texelHeightUniform = [filterProgram uniformIndex:@"texelHeight"];
         
-    __unsafe_unretained GPUImageLuminosity *weakSelf = self;
+    __weak GPUImageLuminosity *weakSelf = self;
     [self setFrameProcessingCompletionBlock:^(GPUImageOutput *filter, CMTime frameTime) {
         [weakSelf extractLuminosityAtFrameTime:frameTime];
     }];

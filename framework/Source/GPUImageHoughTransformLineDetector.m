@@ -52,25 +52,25 @@
     }
     [self addFilter:nonMaximumSuppressionFilter];
     
-    __unsafe_unretained GPUImageHoughTransformLineDetector *weakSelf = self;
+    __weak GPUImageHoughTransformLineDetector *weakSelf = self;
 #ifdef DEBUGLINEDETECTION
     _intermediateImages = [[NSMutableArray alloc] init];
-    __unsafe_unretained NSMutableArray *weakIntermediateImages = _intermediateImages;
+    __weak NSMutableArray *weakIntermediateImages = _intermediateImages;
 
-//    __unsafe_unretained GPUImageOutput<GPUImageInput> *weakEdgeDetectionFilter = thresholdEdgeDetectionFilter;
+//    __weak GPUImageOutput<GPUImageInput> *weakEdgeDetectionFilter = thresholdEdgeDetectionFilter;
 //    [thresholdEdgeDetectionFilter setFrameProcessingCompletionBlock:^(GPUImageOutput *filter, CMTime frameTime){
 //        [weakIntermediateImages removeAllObjects];
 //        UIImage *intermediateImage = [weakEdgeDetectionFilter imageFromCurrentFramebuffer];
 //        [weakIntermediateImages addObject:intermediateImage];
 //    }];
 //
-//    __unsafe_unretained GPUImageOutput<GPUImageInput> *weakParallelCoordinateLineTransformFilter = parallelCoordinateLineTransformFilter;
+//    __weak GPUImageOutput<GPUImageInput> *weakParallelCoordinateLineTransformFilter = parallelCoordinateLineTransformFilter;
 //    [parallelCoordinateLineTransformFilter setFrameProcessingCompletionBlock:^(GPUImageOutput *filter, CMTime frameTime){
 //        UIImage *intermediateImage = [weakParallelCoordinateLineTransformFilter imageFromCurrentFramebuffer];
 //        [weakIntermediateImages addObject:intermediateImage];
 //    }];
 
-    __unsafe_unretained GPUImageOutput<GPUImageInput> *weakNonMaximumSuppressionFilter = nonMaximumSuppressionFilter;
+    __weak GPUImageOutput<GPUImageInput> *weakNonMaximumSuppressionFilter = nonMaximumSuppressionFilter;
     [nonMaximumSuppressionFilter setFrameProcessingCompletionBlock:^(GPUImageOutput *filter, CMTime frameTime){
         UIImage *intermediateImage = [weakNonMaximumSuppressionFilter imageFromCurrentFramebuffer];
         [weakIntermediateImages addObject:intermediateImage];

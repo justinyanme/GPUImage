@@ -219,8 +219,8 @@ NSString *const kGPUImageLuminanceHistogramEqualizationFragmentShaderString = SH
     rawDataInputFilter = [[GPUImageRawDataInput alloc] initWithBytes:dummyInput size:CGSizeMake(256.0, 1.0) pixelFormat:GPUPixelFormatBGRA type:GPUPixelTypeUByte];
     rawDataOutputFilter = [[GPUImageRawDataOutput alloc] initWithImageSize:CGSizeMake(256.0, 3.0) resultsInBGRAFormat:YES];
     
-    __unsafe_unretained GPUImageRawDataOutput *_rawDataOutputFilter = rawDataOutputFilter;
-    __unsafe_unretained GPUImageRawDataInput *_rawDataInputFilter = rawDataInputFilter;
+    __weak GPUImageRawDataOutput *_rawDataOutputFilter = rawDataOutputFilter;
+    __weak GPUImageRawDataInput *_rawDataInputFilter = rawDataInputFilter;
     [rawDataOutputFilter setNewFrameAvailableBlock:^{
         
         unsigned int histogramBins[3][256];

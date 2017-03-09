@@ -260,7 +260,7 @@
         return;
     }
 
-    __unsafe_unretained GPUImageMovie *weakSelf = self;
+    __weak GPUImageMovie *weakSelf = self;
 
     if (synchronizedMovieWriter != nil)
     {
@@ -401,7 +401,7 @@ static CVReturn renderCallback(CVDisplayLinkRef displayLink,
 
 - (void)processPixelBufferAtTime:(CMTime)outputItemTime {
     if ([playerItemOutput hasNewPixelBufferForItemTime:outputItemTime]) {
-        __unsafe_unretained GPUImageMovie *weakSelf = self;
+        __weak GPUImageMovie *weakSelf = self;
         CVPixelBufferRef pixelBuffer = [playerItemOutput copyPixelBufferForItemTime:outputItemTime itemTimeForDisplay:NULL];
         if( pixelBuffer )
             runSynchronouslyOnVideoProcessingQueue(^{
@@ -438,7 +438,7 @@ static CVReturn renderCallback(CVDisplayLinkRef displayLink,
                 previousActualFrameTime = CFAbsoluteTimeGetCurrent();
             }
 
-            __unsafe_unretained GPUImageMovie *weakSelf = self;
+            __weak GPUImageMovie *weakSelf = self;
             runSynchronouslyOnVideoProcessingQueue(^{
                 [weakSelf processMovieFrame:sampleBufferRef];
                 CMSampleBufferInvalidate(sampleBufferRef);
