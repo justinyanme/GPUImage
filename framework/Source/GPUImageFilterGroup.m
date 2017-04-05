@@ -102,6 +102,21 @@
     }
 }
 
+- (void)newFrameReadyAtTime:(CMTime)frameTime atIndex:(NSInteger)textureIndex withFrameBitsPerPixel:(NSNumber *)frameBitsPerPixel;
+{
+    for (GPUImageOutput<GPUImageInput> *currentFilter in _initialFilters)
+    {
+        if (currentFilter != self.inputFilterToIgnoreForUpdates)
+        {
+            if ([currentFilter respondsToSelector:@selector(newFrameReadyAtTime:atIndex:withFrameBitsPerPixel:)]) {
+                [currentFilter newFrameReadyAtTime:frameTime atIndex:textureIndex withFrameBitsPerPixel:frameBitsPerPixel];
+            } else {
+                [currentFilter newFrameReadyAtTime:frameTime atIndex:textureIndex];
+            }
+        }
+    }
+}
+
 - (void)setInputFramebuffer:(GPUImageFramebuffer *)newInputFramebuffer atIndex:(NSInteger)textureIndex;
 {
     for (GPUImageOutput<GPUImageInput> *currentFilter in _initialFilters)

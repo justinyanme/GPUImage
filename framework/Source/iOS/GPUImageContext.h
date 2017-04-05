@@ -61,4 +61,6 @@ typedef NS_ENUM(NSUInteger, GPUImageRotationMode) {
 - (BOOL)enabled;
 - (BOOL)wantsMonochromeInput;
 - (void)setCurrentlyReceivingMonochromeInput:(BOOL)newValue;
+@optional
+- (void)newFrameReadyAtTime:(CMTime)frameTime atIndex:(NSInteger)textureIndex withFrameBitsPerPixel:(NSNumber *)frameBitsPerPixel;
 @end

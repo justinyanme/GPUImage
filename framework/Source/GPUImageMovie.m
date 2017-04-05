@@ -402,10 +402,11 @@ static CVReturn renderCallback(CVDisplayLinkRef displayLink,
 - (void)processPixelBufferAtTime:(CMTime)outputItemTime {
     if ([playerItemOutput hasNewPixelBufferForItemTime:outputItemTime]) {
         __weak GPUImageMovie *weakSelf = self;
-        CVPixelBufferRef pixelBuffer = [playerItemOutput copyPixelBufferForItemTime:outputItemTime itemTimeForDisplay:NULL];
+        CMTime outItemTimeForDisplay;
+        CVPixelBufferRef pixelBuffer = [playerItemOutput copyPixelBufferForItemTime:outputItemTime itemTimeForDisplay:&outItemTimeForDisplay];
         if( pixelBuffer )
             runSynchronouslyOnVideoProcessingQueue(^{
-                [weakSelf processMovieFrame:pixelBuffer withSampleTime:outputItemTime];
+                [weakSelf processMovieFrame:pixelBuffer withSampleTime:outItemTimeForDisplay];
                 CFRelease(pixelBuffer);
             });
     }
