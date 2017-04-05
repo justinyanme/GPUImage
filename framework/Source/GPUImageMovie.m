@@ -533,6 +533,16 @@ static CVReturn renderCallback(CVDisplayLinkRef displayLink,
 {
     int bufferHeight = (int) CVPixelBufferGetHeight(movieFrame);
     int bufferWidth = (int) CVPixelBufferGetWidth(movieFrame);
+    
+    NSNumber *frameBitsPerPixel = nil;
+    CFNumberRef fBPP = NULL;
+    CFDictionaryRef frameMetadataDictionary = (CFDictionaryRef)CVBufferGetAttachment(movieFrame, (__bridge CFStringRef)@"FrameMetadataDictionary", NULL);
+    if (frameMetadataDictionary != NULL && CFDictionaryGetValueIfPresent(frameMetadataDictionary, (__bridge CFStringRef)@"FrameBitsPerPixel", (void *)&fBPP)) {
+        frameBitsPerPixel = (__bridge NSNumber *)fBPP;
+        NSLog(@"[Play] FrameBitsPerPixel: %@ at time: %f(%lld/%d)", frameBitsPerPixel, CMTimeGetSeconds(currentSampleTime), currentSampleTime.value, currentSampleTime.timescale);
+    } else {
+        NSLog(@"[Play] ERROR: Failed to get FrameBitsPerPixel at time: %f(%lld/%d)", CMTimeGetSeconds(currentSampleTime), currentSampleTime.value, currentSampleTime.timescale);
+    }
 
     CFTypeRef colorAttachments = CVBufferGetAttachment(movieFrame, kCVImageBufferYCbCrMatrixKey, NULL);
     if (colorAttachments != NULL)
@@ -680,7 +690,11 @@ static CVReturn renderCallback(CVDisplayLinkRef displayLink,
             {
                 NSInteger indexOfObject = [targets indexOfObject:currentTarget];
                 NSInteger targetTextureIndex = [[targetTextureIndices objectAtIndex:indexOfObject] integerValue];
-                [currentTarget newFrameReadyAtTime:currentSampleTime atIndex:targetTextureIndex];
+                if ([currentTarget respondsToSelector:@selector(newFrameReadyAtTime:atIndex:withFrameBitsPerPixel:)]) {
+                    [currentTarget newFrameReadyAtTime:currentSampleTime atIndex:targetTextureIndex withFrameBitsPerPixel:frameBitsPerPixel];
+                } else {
+                    [currentTarget newFrameReadyAtTime:currentSampleTime atIndex:targetTextureIndex];
+                }
             }
 
             CVPixelBufferUnlockBaseAddress(movieFrame, 0);
@@ -759,7 +773,11 @@ static CVReturn renderCallback(CVDisplayLinkRef displayLink,
         {
             NSInteger indexOfObject = [targets indexOfObject:currentTarget];
             NSInteger targetTextureIndex = [[targetTextureIndices objectAtIndex:indexOfObject] integerValue];
-            [currentTarget newFrameReadyAtTime:currentSampleTime atIndex:targetTextureIndex];
+            if ([currentTarget respondsToSelector:@selector(newFrameReadyAtTime:atIndex:withFrameBitsPerPixel:)]) {
+                [currentTarget newFrameReadyAtTime:currentSampleTime atIndex:targetTextureIndex withFrameBitsPerPixel:frameBitsPerPixel];
+            } else {
+                [currentTarget newFrameReadyAtTime:currentSampleTime atIndex:targetTextureIndex];
+            }
         }
         CVPixelBufferUnlockBaseAddress(movieFrame, 0);
     }
